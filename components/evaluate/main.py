@@ -12,11 +12,11 @@ def run(dataset_uri: str, artifact_uri: str, metrics_uri: str) -> None:
     df_val = pd.read_csv(f"{dataset_uri}/val.csv")
     x_val, y_val = df_val["title"], df_val["target"]
 
-    vectorizer = TfidfVectorizer()
-    x_val = vectorizer.transform(x_val)
-
     model = joblib.load(f"{artifact_uri}/model.joblib")
+    vectorizer = joblib.load(f"{artifact_uri}/vectorizer.joblib")
     print(f"Model loaded from: {artifact_uri}")
+
+    x_val = vectorizer.transform(x_val)
 
     y_pred = model.predict(x_val)
     acc = accuracy_score(y_val, y_pred)

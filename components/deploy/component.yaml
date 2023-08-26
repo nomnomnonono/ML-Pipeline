@@ -5,7 +5,7 @@ inputs:
   # Vertex AI Model resource config
   - {name: model_name, type: String, description: 'Name of Model resource'}
   - {name: serving_container_image_uri, type: String, description: 'Service container URI'}
-  - {name: serving_container_environment_variables, type: Dict, optional: true, description: 'Environment variables'}
+  - {name: serving_container_environment_variables, type: String, optional: true, description: 'Environment variables'}
   - {name: serving_container_ports, type: Integer, default: 80, description: 'Service container port'}
   # Endpoint config
   - {name: endpoint_name, type: String, description: 'Endpoint name'}

@@ -34,6 +34,7 @@ def run(dataset_uri: str, artifact_uri: str) -> None:
     model_dir = Path(artifact_uri)
     model_dir.mkdir(parents=True, exist_ok=True)
     joblib.dump(model, model_dir / "model.joblib")
+    joblib.dump(vectorizer, model_dir / "vectorizer.joblib")
     print(f"Save model in: {artifact_uri}")
 
 

@@ -31,6 +31,7 @@ ROOT_BUCKET=gs://yyy
 $ gsutil mb -l asia-northeast gs://ml-pipeline-arxiv-paper-data
 $ gsutil mb -l asia-northeast gs://ml-pipeline-arxiv-paper-artifact
 $ make data
+$ gsutil cp ./dataset/data.csv gs://ml-pipeline-arxiv-paper-data/data.csv
 ```
 
 ## Build & Push Docker Image

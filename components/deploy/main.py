@@ -8,7 +8,7 @@ def run(
     artifact_uri: str,
     model_name: str,
     serving_container_image_uri: str,
-    serving_container_environment_variables: str,
+    serving_container_environment_variables: dict,
     serving_container_ports: str,
     endpoint_name: str,
     deploy_name: str,
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # Model resource config
     parser.add_argument("--model-name", type=str)
     parser.add_argument("--serving-container-image-uri", type=str)
-    parser.add_argument("--serving-container-environment-variables", type=dict)
+    parser.add_argument("--serving-container-environment-variables", type=str)
     parser.add_argument("--serving-container-ports", type=int)
     # Endpoint config
     parser.add_argument("--endpoint-name", type=str)

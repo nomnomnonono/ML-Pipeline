@@ -52,8 +52,8 @@ def pipeline() -> None:
     _ = deploy_op(
         artifact=train_task.outputs["artifact"],
         model_name="ml-pipeline-arxiv-paper-model",
-        serving_container_image_uri=f"gcr.io/{PROJECT_ID}/{AR_REPOSITORY_NAME}/serving",
-        serving_container_environment_variables={"APP_MODULE": "server:app"},
+        serving_container_image_uri=f"asia-northeast1-docker.pkg.dev/{PROJECT_ID}/{AR_REPOSITORY_NAME}/serving:latest",
+        serving_container_environment_variables='{"APP_MODULE": "server:app"}',
         serving_container_ports=80,
         endpoint_name="ml-pipeline-arxiv-paper-endpoint",
         deploy_name="ml-pipeline-arxiv-paper-deploy",
