@@ -2,7 +2,6 @@ name: preprocess
 description: Preprocess data
 inputs:
   - {name: src_csv, type: String, description: 'Path to the csv file'}
-  - {name: n_splits, type: Integer, default: 3, description: 'Number of train/val splits'}
 outputs:
   - {name: dataset, type: Dataset, description: 'Processed dataset (train/val) URI'}
 metadata:
@@ -15,6 +14,5 @@ implementation:
     command: [python, main.py]
     args: [
       --src-csv-path, {inputValue: src_csv},
-      --n-splits, {inputValue: n_splits},
       --dataset-uri, {outputPath: dataset}
     ]
