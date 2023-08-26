@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # Model resource config
     parser.add_argument("--model-name", type=str)
     parser.add_argument("--serving-container-image-uri", type=str)
-    parser.add_argument("--serving-container-environment-variables", type=str)
+    parser.add_argument("--serving-container-environment-variables", type=dict)
     parser.add_argument("--serving-container-ports", type=int)
     # Endpoint config
     parser.add_argument("--endpoint-name", type=str)

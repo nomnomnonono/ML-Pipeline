@@ -3,7 +3,7 @@ WORKDIR /root
 
 # Upgrade pip to latest
 RUN pip install -U pip \
-    && pip install -U google-cloud-aiplatform google-cloud-storage
+    && pip install -U google-cloud-aiplatform google-cloud-storage fsspec gcfs
 
 COPY main.py ./main.py
 

@@ -24,7 +24,7 @@ metadata:
 implementation:
   container:
     # See details https://github.com/kubeflow/pipelines/blob/master/components/google-cloud/google_cloud_pipeline_components/container/aiplatform/Dockerfile
-    image: asia-northeast1-docker.pkg.dev/ml-pipeline-arxiv-paper/deploy:latest
+    image: asia-northeast1-docker.pkg.dev/mlops-397103/ml-pipeline-arxiv-paper/deploy:latest
     command: [python, main.py]
     args: [
       --artifact-uri, {inputPath: artifact},
