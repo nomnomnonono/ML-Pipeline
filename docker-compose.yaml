@@ -1,0 +1,27 @@
+version: '3.10'
+services:
+  preprocess:
+    build:
+      context: ./components/preprocess
+      dockerfile: Dockerfile
+    image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/preprocess:latest
+  train:
+    build:
+      context: ./components/train
+      dockerfile: Dockerfile
+    image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/train:latest
+  evaluate:
+    build:
+      context: ./components/evaluate
+      dockerfile: Dockerfile
+    image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/evaluate:latest
+  deploy:
+    build:
+      context: ./components/deploy
+      dockerfile: Dockerfile
+    image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/deploy:latest
+  serving:
+    build:
+      context: ./serving
+      dockerfile: Dockerfile
+    image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/serving:latest
