@@ -10,28 +10,30 @@ Arxiv APIで取得した論文データについて、タイトルから主カ�
 ### GCP Authentification
 ```bash
 $ gcloud auth login
+$ gcloud components install pubsub-emulator
 ```
 
 ### Install Dependencies
 ```bash
-$ poetry install
+$ make install
 ```
 
 ### Environmental Variables
 ```bash
+$ vi .env
+```
+
+- 以下の情報を記入＋環境変数としてexportしておく
+```bash
 GCP_PROJECT_ID=your project id
+TOPIC_ID=your topic id
 AR_REPOSITORY_NAME=artifact registory repository name
 LOCATION=asia-northeast1
 SOURCE_CSV_URI=gs://xxx/data.csv
+CONFIG_FILE_URI=gs:/xxx/config.json
 ROOT_BUCKET=gs://yyy
-```
-
-## Create Dataset
-```bash
-$ gsutil mb -l asia-northeast gs://ml-pipeline-arxiv-paper-data
-$ gsutil mb -l asia-northeast gs://ml-pipeline-arxiv-paper-artifact
-$ make data
-$ gsutil cp ./dataset/data.csv gs://ml-pipeline-arxiv-paper-data/data.csv
+JOB_NAME=cloud run job name
+SCHEDULER_NAME=cloud scheduler name
 ```
 
 ## Build & Push Docker Image
@@ -42,7 +44,24 @@ $ docker compose build
 $ docker compose push
 ```
 
-## Exec Pipeline
+## Cloud Run Job to Scrape Paper Data
+### Setup
+```bash
+$ gsutil mb -l asia-northeast gs://xxx
+$ gsutil mb -l asia-northeast gs://yyy
+```
+### Deploy
+```bash
+$ make deploy_job
+```
+
+### Exec
+下記コマンドを実行すると前回実行時点からの差分となる論文情報が取得される。
+```bash
+$ make exec_job
+```
+
+## Exec Pipeline (Create JSON file)
 ```bash
 $ make pipeline
 ```

@@ -1,5 +1,6 @@
 .env
-dataset/data.csv
 *.ipynb
 .venv/
+__pycache__/
+*.csv
 *.json
