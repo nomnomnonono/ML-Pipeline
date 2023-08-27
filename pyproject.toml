@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ML-Pipeline"
+name = "ML-Pipeline-of-Paper-Category-Classification"
 version = "0.1.0"
 description = ""
 authors = ["nomnomnonono <nozomu.koujiguchi1204@gmail.com>"]

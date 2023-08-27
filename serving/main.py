@@ -2,11 +2,11 @@ import os
 from enum import Enum
 
 import joblib
-import lightgbm as lgb
 from fastapi import FastAPI
 from google.cloud import storage
 from pydantic import BaseModel
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 
 AIP_STORAGE_URI = os.environ.get("AIP_STORAGE_URI")
 AIP_HEALTH_ROUTE = os.environ.get("AIP_HEALTH_ROUTE", "/health")
@@ -15,17 +15,18 @@ AIP_PREDICT_ROUTE = os.environ.get("AIP_PREDICT_ROUTE", "/predict")
 app = FastAPI()
 
 
-def build_model(artifact_uri: str) -> lgb.Booster:
+def build_model(artifact_uri: str) -> tuple[LogisticRegression, TfidfVectorizer]:
     bucket_name, model_dir = artifact_uri.lstrip("gs://").split("/", maxsplit=1)
     client = storage.Client()
     bucket = client.bucket(bucket_name)
     model_blob = bucket.blob(f"{model_dir}/model.joblib")
     model_blob.download_to_filename("model.joblib")
-    return joblib.load("model.joblib")
+    vectorizer_blob = bucket.blob(f"{model_dir}/vectorizer.joblib")
+    vectorizer_blob.download_to_filename("vectorizer.joblib")
+    return joblib.load("model.joblib"), joblib.load("vectorizer.joblib")
 
 
-model = build_model(AIP_STORAGE_URI)
-vectorizer = TfidfVectorizer()
+model, vectorizer = build_model(AIP_STORAGE_URI)
 
 
 class Category(Enum):

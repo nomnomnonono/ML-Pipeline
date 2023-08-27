@@ -29,10 +29,10 @@ def pipeline() -> None:
         "jobSpec": {
             "workerPoolSpecs": [
                 {
-                    #"containerSpec": {
+                    # "containerSpec": {
                     #    "imageUri": f"asia-northeast1-docker.pkg.dev/{PROJECT_ID}/{AR_REPOSITORY_NAME}/train:latest", # train_task.container.image
                     #    "args": {"dataset": preprocess_task.outputs["dataset"]}, # train_task.arguments,
-                    #},
+                    # },
                     "machineSpec": {"machineType": "n1-standard-2"},
                     "replicaCount": 1,
                 }
