@@ -50,15 +50,22 @@ $ docker compose push
 $ gsutil mb -l asia-northeast gs://xxx
 $ gsutil mb -l asia-northeast gs://yyy
 ```
+
 ### Deploy
 ```bash
 $ make deploy_job
 ```
 
 ### Exec
-下記コマンドを実行すると前回実行時点からの差分となる論文情報が取得される。
+下記コマンドを実行すると前回実行時点からの差分となる論文情報が取得される
 ```bash
 $ make exec_job
+```
+
+### Create Scheduler
+Cloud Run Jobの定期実行をしたい場合は下記コマンドを実行してください（デフォルトは月1回）
+```bash
+$ make create_scheduler
 ```
 
 ## Exec Pipeline (Create JSON file)

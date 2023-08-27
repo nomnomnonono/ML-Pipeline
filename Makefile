@@ -23,6 +23,14 @@ deploy_job:
 exec_job:
 	gcloud run jobs execute ${JOB_NAME} --region ${LOCATION}
 
+.PHONY: create_scheduler
+create_scheduler:
+	gcloud scheduler jobs create http ${SCHEDULER_NAME} \
+	--location asia-northeast1 \
+	--schedule="0 0 1 * *" \
+	--uri="https://asia-northeast1-run.googleapis.com/apis/run.googleapis.com/v1/namespaces/${GCP_PROJECT_ID}/jobs/${JOB_NAME}:run" \
+	--http-method POST \
+
 .PHONY: pipeline
 pipeline:
 	poetry run python pipeline.py
