@@ -1,0 +1,37 @@
+[
+    {
+      "name": "title",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "category",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+      "name": "author",
+      "type": "STRING",
+      "mode": "NULLABLE"
+    },
+    {
+        "name": "year",
+        "type": "INT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "month",
+        "type": "INT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "date",
+        "type": "INT64",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "link",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    }
+]

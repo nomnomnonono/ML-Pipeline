@@ -29,11 +29,15 @@ GCP_PROJECT_ID=your project id
 TOPIC_ID=your topic id
 AR_REPOSITORY_NAME=artifact registory repository name
 LOCATION=asia-northeast1
+DATA_BUCKET=gs://xxx
 SOURCE_CSV_URI=gs://xxx/data.csv
 CONFIG_FILE_URI=gs:/xxx/config.json
 ROOT_BUCKET=gs://yyy
 JOB_NAME=cloud run job name
 SCHEDULER_NAME=cloud scheduler name
+DATASET_NAME=dataset name
+TABLE_NAME=table name
+BQ_FUNC_NAME=cloud functions name to use bigquery
 ```
 
 ## Build & Push Docker Image
@@ -44,13 +48,13 @@ $ docker compose build
 $ docker compose push
 ```
 
-## Cloud Run Job to Scrape Paper Data
-### Setup
+## Deploy Cloud Functions to Use BiqQuery
+データセットが更新されたらBigQueryも自動更新する関数をデプロイする
 ```bash
-$ gsutil mb -l asia-northeast gs://xxx
-$ gsutil mb -l asia-northeast gs://yyy
+$ make deploy_bq_func
 ```
 
+## Cloud Run Job to Scrape Paper Data
 ### Deploy
 ```bash
 $ make deploy_job
