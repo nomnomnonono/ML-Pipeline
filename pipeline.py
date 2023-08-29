@@ -1,6 +1,7 @@
 import os
 
 from dotenv import load_dotenv
+from google.cloud import aiplatform
 from kfp import compiler, components, dsl
 
 load_dotenv(".env")
@@ -29,10 +30,6 @@ def pipeline() -> None:
         "jobSpec": {
             "workerPoolSpecs": [
                 {
-                    # "containerSpec": {
-                    #    "imageUri": f"asia-northeast1-docker.pkg.dev/{PROJECT_ID}/{AR_REPOSITORY_NAME}/train:latest", # train_task.container.image
-                    #    "args": {"dataset": preprocess_task.outputs["dataset"]}, # train_task.arguments,
-                    # },
                     "machineSpec": {"machineType": "n1-standard-2"},
                     "replicaCount": 1,
                 }
@@ -67,3 +64,14 @@ def pipeline() -> None:
 compiler.Compiler().compile(
     pipeline_func=pipeline, package_path="ml-pipeline-arxiv-paper.json"
 )
+
+job = aiplatform.PipelineJob(
+    display_name="ml-pipeline-arxiv-paper",
+    template_path="ml-pipeline-arxiv-paper.json",
+    pipeline_root=ROOT_BUCKET,
+    enable_caching=False,
+    project=PROJECT_ID,
+    location=LOCATION,
+)
+
+job.submit()

@@ -68,7 +68,7 @@ Cloud Run Jobの定期実行をしたい場合は下記コマンドを実行し�
 $ make create_scheduler
 ```
 
-## Exec Pipeline (Create JSON file)
+## Exec Pipeline
 ```bash
 $ make pipeline
 ```

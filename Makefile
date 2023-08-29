@@ -10,6 +10,7 @@ lint:
 install:
 	poetry install
 	poetry run pip install google-cloud-pubsub
+	poetry run pip install google-cloud-aiplatform
 	poetry run pip install protobuf==3.20
 
 .PHONY: deploy_job
