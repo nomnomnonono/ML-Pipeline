@@ -1,4 +1,8 @@
-FROM tiangolo/uvicorn-gunicorn:python3.10
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10-slim
+
+RUN apt-get update -y \
+    && apt-get install -y libgomp1 \
+    && apt-get -y clean all
 
 RUN pip install poetry
 COPY poetry.lock pyproject.toml ./

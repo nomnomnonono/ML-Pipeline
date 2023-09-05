@@ -3,8 +3,6 @@ description: Evaluate paper-category classifier
 inputs:
   - {name: dataset, type: Dataset, description: 'Processed dataset (train/val) URI'}  
   - {name: artifact, type: Model, description: 'Directory of trained model'}
-outputs:
-  - {name: metrics, type: Artifact, description: 'Path to the metrics file'}
 metadata:
   annotations:
     author: Nozomu Kojiguchi <nozomu.kojiguchi>
@@ -16,5 +14,4 @@ implementation:
     args: [
       --dataset-uri, {inputPath: dataset},
       --artifact-uri, {inputPath: artifact},
-      --metrics-uri, {outputPath: metrics}
     ]

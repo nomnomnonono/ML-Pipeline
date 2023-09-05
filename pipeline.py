@@ -1,3 +1,4 @@
+import datetime
 import os
 
 from dotenv import load_dotenv
@@ -10,10 +11,11 @@ AR_REPOSITORY_NAME = os.environ.get("AR_REPOSITORY_NAME")
 LOCATION = os.environ.get("LOCATION")
 SOURCE_CSV_URI = os.environ.get("SOURCE_CSV_URI")
 ROOT_BUCKET = os.environ.get("ROOT_BUCKET")
+PIPELINE_NAME = os.environ.get("PIPELINE_NAME")
 
 
 @dsl.pipeline(
-    name="vertex-pipelines-sample",
+    name=PIPELINE_NAME,
     description="Vertex Piplines sample",
     pipeline_root=ROOT_BUCKET,
 )
@@ -68,8 +70,9 @@ compiler.Compiler().compile(
 job = aiplatform.PipelineJob(
     display_name="ml-pipeline-arxiv-paper",
     template_path="ml-pipeline-arxiv-paper.json",
+    job_id=PIPELINE_NAME + f"-{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')[:-4]}",
     pipeline_root=ROOT_BUCKET,
-    enable_caching=False,
+    enable_caching=True,
     project=PROJECT_ID,
     location=LOCATION,
 )

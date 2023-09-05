@@ -25,6 +25,7 @@ services:
       context: ./serving
       dockerfile: Dockerfile
     image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/serving:latest
+    stdin_open: true
   job:
     build:
       context: ./job

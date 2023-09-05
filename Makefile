@@ -51,3 +51,7 @@ create_scheduler:
 .PHONY: pipeline
 pipeline:
 	poetry run python pipeline.py
+
+.PHONY: mlflow
+mlflow:
+	poetry run mlflow ui

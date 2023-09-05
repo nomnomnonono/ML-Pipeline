@@ -40,6 +40,11 @@ TABLE_NAME=table name
 BQ_FUNC_NAME=cloud functions name to use bigquery
 ```
 
+## Boot MLflow Server
+```bash
+$ make mlflow
+```
+
 ## Build & Push Docker Image
 ```bash
 $ gcloud auth configure-docker asia-northeast1-docker.pkg.dev
