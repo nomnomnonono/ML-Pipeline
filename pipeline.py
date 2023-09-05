@@ -72,7 +72,7 @@ job = aiplatform.PipelineJob(
     template_path="ml-pipeline-arxiv-paper.json",
     job_id=PIPELINE_NAME + f"-{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')[:-4]}",
     pipeline_root=ROOT_BUCKET,
-    enable_caching=True,
+    enable_caching=False,
     project=PROJECT_ID,
     location=LOCATION,
 )
