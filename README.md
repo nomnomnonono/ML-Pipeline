@@ -38,6 +38,7 @@ SCHEDULER_NAME=cloud scheduler name
 DATASET_NAME=dataset name
 TABLE_NAME=table name
 BQ_FUNC_NAME=cloud functions name to use bigquery
+PIPELINE_NAME=vertex ai pipelines name
 ```
 
 ## Boot MLflow Server
