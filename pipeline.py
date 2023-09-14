@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 from google.cloud import aiplatform
-from kfp import compiler, components, dsl
+from kfp import compiler, dsl
 
 load_dotenv(".env")
 PROJECT_ID = os.environ.get("GCP_PROJECT_ID")
@@ -13,6 +13,9 @@ SOURCE_CSV_URI = os.environ.get("SOURCE_CSV_URI")
 ROOT_BUCKET = os.environ.get("ROOT_BUCKET")
 PIPELINE_NAME = os.environ.get("PIPELINE_NAME")
 
+from components.preprocess.main import preprocess
+from components.train.main import train
+
 
 @dsl.pipeline(
     name=PIPELINE_NAME,
@@ -20,33 +23,11 @@ PIPELINE_NAME = os.environ.get("PIPELINE_NAME")
     pipeline_root=ROOT_BUCKET,
 )
 def pipeline() -> None:
-    preprocess_op = components.load_component_from_file(
-        "components/preprocess/component.yaml"
-    )
-    preprocess_task = preprocess_op(src_csv=SOURCE_CSV_URI)
+    preprocess_op = preprocess(src_csv_path=SOURCE_CSV_URI)
 
-    train_op = components.load_component_from_file("components/train/component.yaml")
-    train_task = train_op(dataset=preprocess_task.outputs["dataset"])
-    train_task.custom_job_spec = {
-        "displayName": train_task.name,
-        "jobSpec": {
-            "workerPoolSpecs": [
-                {
-                    "machineSpec": {"machineType": "n1-standard-2"},
-                    "replicaCount": 1,
-                }
-            ],
-        },
-    }
+    train_op = train(dataset_uri=preprocess_op.output)
 
-    evaluate_op = components.load_component_from_file(
-        "components/evaluate/component.yaml"
-    )
-    _ = evaluate_op(
-        dataset=preprocess_task.outputs["dataset"],
-        artifact=train_task.outputs["artifact"],
-    )
-
+    """
     deploy_op = components.load_component_from_file("components/deploy/component.yaml")
     _ = deploy_op(
         artifact=train_task.outputs["artifact"],
@@ -61,6 +42,7 @@ def pipeline() -> None:
         project=PROJECT_ID,
         location=LOCATION,
     )
+    """
 
 
 compiler.Compiler().compile(
@@ -70,7 +52,8 @@ compiler.Compiler().compile(
 job = aiplatform.PipelineJob(
     display_name="ml-pipeline-arxiv-paper",
     template_path="ml-pipeline-arxiv-paper.json",
-    job_id=PIPELINE_NAME + f"-{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')[:-4]}",
+    job_id=PIPELINE_NAME
+    + f"-{datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')[:-4]}",
     pipeline_root=ROOT_BUCKET,
     enable_caching=False,
     project=PROJECT_ID,

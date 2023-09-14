@@ -15,6 +15,14 @@ install:
 	poetry run pip install google-cloud-bigquery
 	poetry run pip install protobuf==3.20
 
+.PHONY: docker
+docker:
+	cp .env components/preprocess/
+	cp .env components/train/
+	cp .env components/deploy/
+	docker compose build
+	docker compose push
+
 .PHONY: deploy_job
 deploy_job:
 	gsutil mb ${DATA_BUCKET}

@@ -1,14 +1,29 @@
-import argparse
-from pathlib import Path
+import os
 
-import joblib
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
+from dotenv import load_dotenv
+from kfp.v2.dsl import InputPath, Metrics, Output, OutputPath, component
+
+load_dotenv(".env")
+PROJECT_ID = os.environ.get("GCP_PROJECT_ID")
+AR_REPOSITORY_NAME = os.environ.get("AR_REPOSITORY_NAME")
 
 
-def run(dataset_uri: str, artifact_uri: str) -> None:
+@component(
+    base_image=f"asia-northeast1-docker.pkg.dev/{PROJECT_ID}/{AR_REPOSITORY_NAME}/train:latest"
+)
+def train(
+    dataset_uri: InputPath("Dataset"),
+    artifact_uri: OutputPath("Model"),
+    metrics: Output[Metrics],
+) -> None:
+    from pathlib import Path
+
+    import joblib
+    import pandas as pd
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import accuracy_score
+
     dataset_dir = Path(dataset_uri)
     df_train = pd.read_csv(dataset_dir / "train.csv")
     df_val = pd.read_csv(dataset_dir / "val.csv")
@@ -37,11 +52,6 @@ def run(dataset_uri: str, artifact_uri: str) -> None:
     joblib.dump(vectorizer, model_dir / "vectorizer.joblib")
     print(f"Save model in: {artifact_uri}")
 
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Train")
-    parser.add_argument("--dataset-uri", type=str)
-    parser.add_argument("--artifact-uri", type=str)
-
-    args = parser.parse_args()
-    run(**vars(args))
+    metrics.log_metric("train accuracy", acc_train)
+    metrics.log_metric("validation accuracy", acc_val)
+    metrics.log_metric("model uri", artifact_uri)

@@ -10,11 +10,6 @@ services:
       context: ./components/train
       dockerfile: Dockerfile
     image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/train:latest
-  evaluate:
-    build:
-      context: ./components/evaluate
-      dockerfile: Dockerfile
-    image: asia-northeast1-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPOSITORY_NAME}/evaluate:latest
   deploy:
     build:
       context: ./components/deploy

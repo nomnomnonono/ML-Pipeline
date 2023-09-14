@@ -50,8 +50,7 @@ $ make mlflow
 ```bash
 $ gcloud auth configure-docker asia-northeast1-docker.pkg.dev
 $ gcloud artifacts repositories create $AR_REPOSITORY_NAME --location=$LOCATION --repository-format=docker
-$ docker compose build
-$ docker compose push
+$ make docker
 ```
 
 ## Deploy Cloud Functions to Use BiqQuery
